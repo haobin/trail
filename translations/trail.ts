@@ -22,8 +22,18 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="15"/>
-        <source>Show detail</source>
+        <location filename="../assets/main.qml" line="23"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="33"/>
+        <source>Pause</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/main.qml" line="33"/>
+        <source>Resume</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

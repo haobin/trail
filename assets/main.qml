@@ -9,16 +9,39 @@ NavigationPane {
             background: Color.Black
             layout: DockLayout {
             }
-            Button {
+            ImageView {
                 horizontalAlignment: HorizontalAlignment.Center
                 verticalAlignment: VerticalAlignment.Center
-                text: qsTr("Show detail")
-                imageSource: "asset:///images/picture1thumb.png"
+                imageSource: "asset:///images/trail_running.jpg"
+            }
+            
+            
+            Button {
+                id: startButton
+                horizontalAlignment: HorizontalAlignment.Center
+                verticalAlignment: VerticalAlignment.Bottom
+                text: qsTr("Start")
                 onClicked: {
-                    // show detail page when the button is clicked
-                    var page = getSecondPage();
-                    console.debug("pushing detail " + page)
-                    navigationPane.push(page);
+                    startButton.visible = false;
+                    Trail.startWorkout();
+                }
+            }
+            Button {
+                visible: !startButton.visible
+                horizontalAlignment: HorizontalAlignment.Center
+                verticalAlignment: VerticalAlignment.Bottom
+                text: Trail.started ? qsTr("Pause") : qsTr("Resume")
+//                imageSource: "asset:///images/picture1thumb.png"
+                onClicked: {
+                    if (!Trail.started) {
+                        Trail.startWorkout();
+                    } else {
+                        Trail.stopWorkout();
+                        // show detail page when the button is clicked
+                        var page = getSecondPage();
+                        console.debug("pushing detail " + page)
+                        navigationPane.push(page);
+                    }
                 }
                 property Page secondPage
                 function getSecondPage() {
