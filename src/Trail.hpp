@@ -5,6 +5,7 @@
 #include <QObject>
 
 #include <bb/cascades/QmlDocument>
+#include "GpsLocation.hpp"
 
 namespace bb
 {
@@ -58,6 +59,7 @@ private:
     void setStarted(bool started);
 
     bool mStarted;
+    GpsLocation mGpsLocation;
 };
 
 #endif /* Trail_HPP_ */

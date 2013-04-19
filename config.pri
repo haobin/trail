@@ -3,26 +3,32 @@ BASEDIR =  $$quote($$_PRO_FILE_PWD_)
 
 device {
     CONFIG(debug, debug|release) {
-        SOURCES +=  $$quote($$BASEDIR/src/Trail.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/GpsLocation.cpp) \
+                 $$quote($$BASEDIR/src/Trail.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/Trail.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/GpsLocation.hpp) \
+                 $$quote($$BASEDIR/src/Trail.hpp)
     }
 
     CONFIG(release, debug|release) {
-        SOURCES +=  $$quote($$BASEDIR/src/Trail.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/GpsLocation.cpp) \
+                 $$quote($$BASEDIR/src/Trail.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/Trail.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/GpsLocation.hpp) \
+                 $$quote($$BASEDIR/src/Trail.hpp)
     }
 }
 
 simulator {
     CONFIG(debug, debug|release) {
-        SOURCES +=  $$quote($$BASEDIR/src/Trail.cpp) \
+        SOURCES +=  $$quote($$BASEDIR/src/GpsLocation.cpp) \
+                 $$quote($$BASEDIR/src/Trail.cpp) \
                  $$quote($$BASEDIR/src/main.cpp)
 
-        HEADERS +=  $$quote($$BASEDIR/src/Trail.hpp)
+        HEADERS +=  $$quote($$BASEDIR/src/GpsLocation.hpp) \
+                 $$quote($$BASEDIR/src/Trail.hpp)
     }
 }
 

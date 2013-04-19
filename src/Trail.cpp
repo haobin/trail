@@ -9,7 +9,8 @@ using namespace bb::cascades;
 
 Trail::Trail(bb::cascades::Application *app) :
     QObject(app),
-    mStarted(false)
+    mStarted(false),
+    mGpsLocation()
 {
     // create scene document from main.qml asset
     // set parent to created document to ensure it exists for the whole application lifetime
@@ -30,6 +31,7 @@ void Trail::registerContext(QmlDocument *qml)
         return;
     }
     rootContext->setContextProperty("Trail", this);
+    rootContext->setContextProperty("GpsLocation", &mGpsLocation);
 }
 
 
@@ -57,3 +59,4 @@ void Trail::stopWorkout()
     qDebug("stop work out");
     setStarted(false);
 }
+

@@ -6,14 +6,22 @@ NavigationPane {
     Page {
         // page with a picture thumbnail
         Container {
-            background: Color.Black
+            background: Color.White
             layout: DockLayout {
             }
-            ImageView {
-                horizontalAlignment: HorizontalAlignment.Center
-                verticalAlignment: VerticalAlignment.Center
-                imageSource: "asset:///images/trail_running.jpg"
+            
+            Shade {
+                id: shade
+                horizontalAlignment: HorizontalAlignment.Fill
+                verticalAlignment: VerticalAlignment.Fill
+                visible: GpsLocation.locationPending
             }
+            
+//            ImageView {
+//                horizontalAlignment: HorizontalAlignment.Center
+//                verticalAlignment: VerticalAlignment.Center
+//                imageSource: "asset:///images/trail_running.jpg"
+//            }
             
             
             Button {
