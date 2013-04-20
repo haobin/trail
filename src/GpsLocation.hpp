@@ -12,6 +12,7 @@
 #include <QtLocationSubset/qgeopositioninfosource.h>
 #include <bb/cascades/maps/MapData>
 #include <QtLocationSubset/QGeoCoordinate>
+#include <bb/system/SystemUiResult>
 
 using QtMobilitySubset::QGeoPositionInfo;
 
@@ -62,11 +63,16 @@ public Q_SLOTS:
     void positionUpdateTimeout();
     void positionUpdated(const QGeoPositionInfo &pos);
     Q_INVOKABLE void mapviewCreated(QObject *mapview);
+    void onDialogFinished(bb::system::SystemUiResult::Type);
 private:
 
     void setLocationPending(bool pending);
 
     void updateDistance(QtMobilitySubset::QGeoCoordinate coor);
+
+    void invokeLocationSettings() const;
+
+    void promptToTurnOnLocation() const;
 
     bool mLocationPending;
     double mGroundSpeed;

@@ -20,6 +20,14 @@
     </message>
 </context>
 <context>
+    <name>GpsLocation</name>
+    <message>
+        <location filename="../src/GpsLocation.cpp" line="217"/>
+        <source>Can&apos;t Access Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <location filename="../assets/main.qml" line="49"/>

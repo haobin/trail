@@ -11,6 +11,10 @@
 #include <qobject.h>
 #include <bb/cascades/maps/MapView>
 #include <bb/platform/geo/GeoLocation>
+#include <bb/system/InvokeManager>
+#include <bb/system/InvokeRequest>
+#include <bb/system/InvokeTargetReply>
+#include <bb/system/SystemDialog>
 
 using QtMobilitySubset::QGeoPositionInfoSource;
 using bb::platform::geo::GeoLocation;
@@ -28,7 +32,6 @@ GpsLocation::GpsLocation(QObject *parent) :
     mMapData(NULL),
     mStarttime(QDateTime::currentDateTime())
 {
-    // TODO Auto-generated constructor stub
     QGeoPositionInfoSource *src = QGeoPositionInfoSource::createDefaultSource(this);
     src->setPreferredPositioningMethods(QGeoPositionInfoSource::SatellitePositioningMethods);
     src->setUpdateInterval(10 * 1000);
@@ -48,12 +51,13 @@ GpsLocation::GpsLocation(QObject *parent) :
         this, SLOT(positionUpdated(const QGeoPositionInfo &)));
 
     if (positionUpdatedConnected) {
-        // Signal and slot connected.
-
-        // Start receiving updates to the position of the device.
         src->startUpdates();
     } else {
         qWarning("haobin failed to connect to positionUpdateTimeout()");
+    }
+
+    if (!src->property("locationServicesEnabled").toBool()) {
+        promptToTurnOnLocation();
     }
 }
 
@@ -178,4 +182,52 @@ int GpsLocation::getDistance() const
 QString GpsLocation::getAvgSpeed() const
 {
     return QString::number(mAvgSpeed, 'f', 1);
+}
+
+
+void GpsLocation::invokeLocationSettings() const
+{
+    // bring up the Settings app at the Location Services page so it can be turned on. One could
+    // first bring up a dialog here to give the user context
+    bb::system::InvokeManager * invokeManager = new bb::system::InvokeManager(NULL); // or pass a QObject parent instead of NULL to relinquish delete responsibility
+    bb::system::InvokeRequest request;
+    request.setAction("bb.action.OPEN");
+    request.setMimeType("text/html");
+    request.setUri("settings://location");
+    request.setTarget("sys.settings.target");
+    bb::system::InvokeTargetReply *reply = invokeManager->invoke(request);
+    if (reply) {
+        // you can use reply to see how the invocation went...
+    }
+
+    delete invokeManager; // deletes reply too...
+
+}
+
+void GpsLocation::onDialogFinished(bb::system::SystemUiResult::Type result)
+{
+    if(result == bb::system::SystemUiResult::ConfirmButtonSelection) {
+        invokeLocationSettings();
+    }
+}
+
+void GpsLocation::promptToTurnOnLocation() const
+{
+    bb::system::SystemDialog *dialog = new bb::system::SystemDialog("Settings", "Later");
+    dialog->setTitle(tr("Can't Access Location"));
+    dialog->setBody(
+        "Location services are turned off and as a result this application cannot work properly. You can turn on Location services from Settings.");
+    bool result = connect(dialog, SIGNAL(finished(bb::system::SystemUiResult::Type)), this,
+        SLOT(onDialogFinished(bb::system::SystemUiResult::Type)));
+    if (!result) {
+        qWarning("haobin failed to connect to onDialogFinished");
+        return;
+    }
+    result = connect(dialog, SIGNAL(finished(bb::system::SystemUiResult::Type)), dialog,
+        SLOT(deleteLater()));
+    if (!result) {
+        qWarning("haobin failed to connect to deleteLater");
+        return;
+    }
+    dialog->show();
 }
