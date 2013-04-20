@@ -1,5 +1,6 @@
 // Navigation pane project template
 import bb.cascades 1.0
+import bb.cascades.maps 1.0
 
 NavigationPane {
     id: navigationPane
@@ -23,48 +24,67 @@ NavigationPane {
 //                imageSource: "asset:///images/trail_running.jpg"
 //            }
             
-            
-            Button {
-                id: startButton
-                horizontalAlignment: HorizontalAlignment.Center
+            Container {
+                id: infoPanel
+                horizontalAlignment: HorizontalAlignment.Fill
                 verticalAlignment: VerticalAlignment.Bottom
-                text: qsTr("Start")
-                onClicked: {
-                    startButton.visible = false;
-                    Trail.startWorkout();
+                Label {
+                    text: "Current Speed: " + GpsLocation.groundSpeed
                 }
             }
-            Button {
-                visible: !startButton.visible
-                horizontalAlignment: HorizontalAlignment.Center
-                verticalAlignment: VerticalAlignment.Bottom
-                text: Trail.started ? qsTr("Pause") : qsTr("Resume")
-//                imageSource: "asset:///images/picture1thumb.png"
-                onClicked: {
-                    if (!Trail.started) {
-                        Trail.startWorkout();
-                    } else {
-                        Trail.stopWorkout();
-                        // show detail page when the button is clicked
-                        var page = getSecondPage();
-                        console.debug("pushing detail " + page)
-                        navigationPane.push(page);
-                    }
-                }
-                property Page secondPage
-                function getSecondPage() {
-                    if (! secondPage) {
-                        secondPage = secondPageDefinition.createObject();
-                    }
-                    return secondPage;
-                }
-                attachedObjects: [
-                    ComponentDefinition {
-                        id: secondPageDefinition
-                        source: "DetailsPage.qml"
-                    }
-                ]
+
+            MapView {
+                id: mapview
+
+                horizontalAlignment: HorizontalAlignment.Fill
+                verticalAlignment: VerticalAlignment.Center
+                preferredHeight: 720;
+                latitude: 43.468245
+                longitude: -80.519603
+                altitude: 2000
+
             }
+            //            Button {
+//                id: startButton
+//                horizontalAlignment: HorizontalAlignment.Center
+//                verticalAlignment: VerticalAlignment.Bottom
+//                text: qsTr("Start")
+//                onClicked: {
+//                    startButton.visible = false;
+//                    Trail.startWorkout();
+//                }
+//            }
+//            Button {
+//                visible: !startButton.visible
+//                horizontalAlignment: HorizontalAlignment.Center
+//                verticalAlignment: VerticalAlignment.Bottom
+//                text: Trail.started ? qsTr("Pause") : qsTr("Resume")
+////                imageSource: "asset:///images/picture1thumb.png"
+//                onClicked: {
+//                    if (!Trail.started) {
+//                        Trail.startWorkout();
+//                    } else {
+//                        Trail.stopWorkout();
+//                        // show detail page when the button is clicked
+//                        var page = getSecondPage();
+//                        console.debug("pushing detail " + page)
+//                        navigationPane.push(page);
+//                    }
+//                }
+//                property Page secondPage
+//                function getSecondPage() {
+//                    if (! secondPage) {
+//                        secondPage = secondPageDefinition.createObject();
+//                    }
+//                    return secondPage;
+//                }
+//                attachedObjects: [
+//                    ComponentDefinition {
+//                        id: secondPageDefinition
+//                        source: "DetailsPage.qml"
+//                    }
+//                ]
+//            }
         }
     }
     onCreationCompleted: {

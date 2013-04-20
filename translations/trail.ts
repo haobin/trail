@@ -19,22 +19,4 @@
         <translation type="unfinished"></translation>
     </message>
 </context>
-<context>
-    <name>main</name>
-    <message>
-        <location filename="../assets/main.qml" line="31"/>
-        <source>Start</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/main.qml" line="41"/>
-        <source>Pause</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/main.qml" line="41"/>
-        <source>Resume</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
 </TS>
