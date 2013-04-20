@@ -43,6 +43,9 @@ NavigationPane {
                 longitude: GpsLocation.longitude
                 altitude: 1000
 
+                onCreationCompleted: {
+                    GpsLocation.mapviewCreated(mapview);
+                }
             }
             //            Button {
 //                id: startButton

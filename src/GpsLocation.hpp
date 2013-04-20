@@ -10,6 +10,7 @@
 
 #include <qobject.h>
 #include <QtLocationSubset/qgeopositioninfosource.h>
+#include <bb/cascades/maps/MapData>
 
 using QtMobilitySubset::QGeoPositionInfo;
 
@@ -51,7 +52,7 @@ public:
 public Q_SLOTS:
     void positionUpdateTimeout();
     void positionUpdated(const QGeoPositionInfo &pos);
-
+    Q_INVOKABLE void mapviewCreated(QObject *mapview);
 private:
 
     void setLocationPending(bool pending);
@@ -59,6 +60,7 @@ private:
     double mGroundSpeed;
     double mLatitude;
     double mLongitude;
+    bb::cascades::maps::MapData *mMapData;
 };
 
 #endif /* GPSLOCATION_HPP_ */

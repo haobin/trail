@@ -8,15 +8,20 @@
 #include "GpsLocation.hpp"
 #include <QtLocationSubset/qgeopositioninfosource.h>
 #include <QVariant>
+#include <qobject.h>
+#include <bb/cascades/maps/MapView>
+#include <bb/platform/geo/GeoLocation>
 
 using QtMobilitySubset::QGeoPositionInfoSource;
+using bb::platform::geo::GeoLocation;
 
 GpsLocation::GpsLocation(QObject *parent) :
     QObject(parent),
     mLocationPending(true),
     mGroundSpeed(0.0),
     mLatitude(43.468245),
-    mLongitude(-80.519603)
+    mLongitude(-80.519603),
+    mMapData(NULL)
 {
     // TODO Auto-generated constructor stub
     QGeoPositionInfoSource *src = QGeoPositionInfoSource::createDefaultSource(this);
@@ -28,7 +33,7 @@ GpsLocation::GpsLocation(QObject *parent) :
         SLOT(positionUpdateTimeout()));
 
     if (!updateTimeoutConnected) {
-       qWarning("haobin failed to connect to positionUpdateTimeout()");
+        qWarning("haobin failed to connect to positionUpdateTimeout()");
     }
 
     // Connect the positionUpdated() signal to a
@@ -52,14 +57,11 @@ GpsLocation::~GpsLocation()
     // TODO Auto-generated destructor stub
 }
 
-
-
 void GpsLocation::positionUpdateTimeout()
 {
     qWarning("haobin positionUpdateTimeout");
     setLocationPending(true);
 }
-
 
 void GpsLocation::positionUpdated(const QGeoPositionInfo &pos)
 {
@@ -71,6 +73,11 @@ void GpsLocation::positionUpdated(const QGeoPositionInfo &pos)
     setLatitude(latitude);
     setLongitude(longitude);
     qDebug("haobin latitude=%f, longitude=%f, groundSpeed=%f", latitude, longitude, groundSpeed);
+
+    if (mMapData != NULL) {
+        GeoLocation *loc = new GeoLocation(latitude, longitude);
+        mMapData->add(loc);
+    }
 }
 
 void GpsLocation::setLocationPending(bool pending)
@@ -86,7 +93,6 @@ bool GpsLocation::isLocationPending() const
     return mLocationPending;
 }
 
-
 double GpsLocation::getGroundSpeed() const
 {
     return mGroundSpeed;
@@ -98,26 +104,42 @@ void GpsLocation::setGroundSpeed(double speed)
     Q_EMIT groundSpeedChanged();
 }
 
-
-
 double GpsLocation::getLatitude() const
 {
-	return mLatitude;
+    return mLatitude;
 }
 
 void GpsLocation::setLatitude(double lat)
 {
-	mLatitude = lat;
-	Q_EMIT latitudeChanged();
+    mLatitude = lat;
+    Q_EMIT latitudeChanged();
 }
 
 double GpsLocation::getLongitude() const
 {
-	return mLongitude;
+    return mLongitude;
 }
 
 void GpsLocation::setLongitude(double lon)
 {
-	mLongitude = lon;
-	Q_EMIT longitudeChanged();
+    mLongitude = lon;
+    Q_EMIT longitudeChanged();
+}
+
+Q_INVOKABLE void GpsLocation::mapviewCreated(QObject *mapobj)
+{
+
+    using namespace bb::cascades::maps;
+    if (mapobj != NULL) {
+        MapView *mapview = qobject_cast<MapView*>(mapobj);
+        if (mapview) {
+            MapData *mapData = mapview->mapData();
+            if (mapData) {
+                qDebug("haobin got mapdata!");
+                mMapData = mapData;
+            }
+        }
+    } else {
+        qWarning("haobin mapview is null.");
+    }
 }

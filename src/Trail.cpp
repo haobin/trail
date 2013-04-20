@@ -32,6 +32,10 @@ void Trail::registerContext(QmlDocument *qml)
     }
     rootContext->setContextProperty("Trail", this);
     rootContext->setContextProperty("GpsLocation", &mGpsLocation);
+
+    // find ref to mapview
+//    AbstractPane *root = qml->createRootObject<AbstractPane>();
+//    root->
 }
 
 
