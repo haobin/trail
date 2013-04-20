@@ -3,7 +3,7 @@ import bb.cascades 1.0
 Container {
     id: shade
     background: Color.Black
-    opacity: 0.6
+    opacity: 0.5
     
     layout: DockLayout {
     }
@@ -18,6 +18,7 @@ Container {
             text: qsTr("Locating GPS Signal")
             textStyle.fontSize: FontSize.XLarge
             textStyle.textAlign: TextAlign.Center
+            textStyle.color: Color.create("#fafafa")
         }
 
         Label {
@@ -26,6 +27,7 @@ Container {
             textStyle.fontSize: FontSize.Small
             textStyle.textAlign: TextAlign.Center
             textStyle.fontStyle: FontStyle.Italic
+            textStyle.color: Color.create("#fafafa")
         }
 
         ActivityIndicator {

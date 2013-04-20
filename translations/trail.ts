@@ -35,7 +35,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../assets/Shade.qml" line="25"/>
+        <location filename="../assets/Shade.qml" line="26"/>
         <source>This may take a few minutes...</source>
         <translation type="unfinished"></translation>
     </message>
