@@ -28,6 +28,19 @@
     </message>
 </context>
 <context>
+    <name>Shade</name>
+    <message>
+        <location filename="../assets/Shade.qml" line="18"/>
+        <source>Locating GPS Signal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../assets/Shade.qml" line="25"/>
+        <source>This may take a few minutes...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>main</name>
     <message>
         <location filename="../assets/main.qml" line="49"/>

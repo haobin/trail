@@ -3,7 +3,7 @@ import bb.cascades 1.0
 Container {
     id: shade
     background: Color.Black
-    opacity: 0.8
+    opacity: 0.6
     
     layout: DockLayout {
     }
@@ -14,7 +14,26 @@ Container {
         verticalAlignment: VerticalAlignment.Center
 
         Label {
-            text: "Waiting for GPS Signal..."
+            horizontalAlignment: HorizontalAlignment.Fill
+            text: qsTr("Locating GPS Signal")
+            textStyle.fontSize: FontSize.XLarge
+            textStyle.textAlign: TextAlign.Center
+        }
+
+        Label {
+            horizontalAlignment: HorizontalAlignment.Fill
+            text: qsTr("This may take a few minutes...")
+            textStyle.fontSize: FontSize.Small
+            textStyle.textAlign: TextAlign.Center
+            textStyle.fontStyle: FontStyle.Italic
+        }
+
+        ActivityIndicator {
+            id: myIndicator
+            running: true
+            preferredWidth: 100
+            topMargin: 80
+            horizontalAlignment: HorizontalAlignment.Center
         }
     }
 }

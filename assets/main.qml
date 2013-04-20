@@ -15,8 +15,8 @@ NavigationPane {
                 id: shade
                 horizontalAlignment: HorizontalAlignment.Fill
                 verticalAlignment: VerticalAlignment.Fill
-//                visible: GpsLocation.locationPending
-                visible: false
+                visible: GpsLocation.locationPending
+//                visible: false
             }
             
 
@@ -47,6 +47,8 @@ NavigationPane {
                     bottomPadding: 15
                     Label {
                         text: qsTr("Average Speed: %1 km/h.  Distance: %2 m").arg(GpsLocation.avgSpeed).arg(GpsLocation.distance)
+                        textStyle.color: Color.create("#e05d1b")
+                        textStyle.fontSize: FontSize.Medium
                     }
                 }
             }
