@@ -14,7 +14,9 @@ using QtMobilitySubset::QGeoPositionInfoSource;
 GpsLocation::GpsLocation(QObject *parent) :
     QObject(parent),
     mLocationPending(true),
-    mGroundSpeed(0.0)
+    mGroundSpeed(0.0),
+    mLatitude(43.468245),
+    mLongitude(-80.519603)
 {
     // TODO Auto-generated constructor stub
     QGeoPositionInfoSource *src = QGeoPositionInfoSource::createDefaultSource(this);
@@ -66,6 +68,8 @@ void GpsLocation::positionUpdated(const QGeoPositionInfo &pos)
     double longitude = pos.coordinate().longitude();
     qreal groundSpeed = pos.attribute(QGeoPositionInfo::GroundSpeed);
     setGroundSpeed(groundSpeed);
+    setLatitude(latitude);
+    setLongitude(longitude);
     qDebug("haobin latitude=%f, longitude=%f, groundSpeed=%f", latitude, longitude, groundSpeed);
 }
 
@@ -92,4 +96,28 @@ void GpsLocation::setGroundSpeed(double speed)
 {
     mGroundSpeed = speed;
     Q_EMIT groundSpeedChanged();
+}
+
+
+
+double GpsLocation::getLatitude() const
+{
+	return mLatitude;
+}
+
+void GpsLocation::setLatitude(double lat)
+{
+	mLatitude = lat;
+	Q_EMIT latitudeChanged();
+}
+
+double GpsLocation::getLongitude() const
+{
+	return mLongitude;
+}
+
+void GpsLocation::setLongitude(double lon)
+{
+	mLongitude = lon;
+	Q_EMIT longitudeChanged();
 }

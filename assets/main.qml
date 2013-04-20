@@ -39,9 +39,9 @@ NavigationPane {
                 horizontalAlignment: HorizontalAlignment.Fill
                 verticalAlignment: VerticalAlignment.Center
                 preferredHeight: 720;
-                latitude: 43.468245
-                longitude: -80.519603
-                altitude: 2000
+                latitude: GpsLocation.latitude
+                longitude: GpsLocation.longitude
+                altitude: 1000
 
             }
             //            Button {
