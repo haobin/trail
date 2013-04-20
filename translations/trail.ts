@@ -22,13 +22,8 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../assets/main.qml" line="32"/>
-        <source>Average Speed: %1 km/h</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../assets/main.qml" line="35"/>
-        <source>Distance: %1 meters</source>
+        <location filename="../assets/main.qml" line="49"/>
+        <source>Average Speed: %1 km/h.  Distance: %2 m</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

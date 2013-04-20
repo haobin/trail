@@ -177,5 +177,5 @@ int GpsLocation::getDistance() const
 
 QString GpsLocation::getAvgSpeed() const
 {
-    return QString::number(mAvgSpeed, 'f', 2);
+    return QString::number(mAvgSpeed, 'f', 1);
 }

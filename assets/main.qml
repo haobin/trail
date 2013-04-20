@@ -15,82 +15,42 @@ NavigationPane {
                 id: shade
                 horizontalAlignment: HorizontalAlignment.Fill
                 verticalAlignment: VerticalAlignment.Fill
-                visible: GpsLocation.locationPending
+//                visible: GpsLocation.locationPending
+                visible: false
             }
             
-//            ImageView {
-//                horizontalAlignment: HorizontalAlignment.Center
-//                verticalAlignment: VerticalAlignment.Center
-//                imageSource: "asset:///images/trail_running.jpg"
-//            }
-            
+
             Container {
-                id: infoPanel
                 horizontalAlignment: HorizontalAlignment.Fill
-                verticalAlignment: VerticalAlignment.Bottom
-                Label {
-                    text: qsTr("Average Speed: %1 km/h").arg(GpsLocation.avgSpeed)
+                verticalAlignment: VerticalAlignment.Fill
+                visible: ! shade.visible
+                layout: DockLayout {}
+                
+                MapView {
+                    id: mapview
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    verticalAlignment: VerticalAlignment.Center
+                    latitude: GpsLocation.latitude
+                    longitude: GpsLocation.longitude
+                    altitude: 1000
+
+                    onCreationCompleted: {
+                        GpsLocation.mapviewCreated(mapview);
+                    }
                 }
-                Label {
-                    text: qsTr("Distance: %1 meters").arg(GpsLocation.distance)
+
+                Container {
+                    id: infoPanel
+                    horizontalAlignment: HorizontalAlignment.Fill
+                    verticalAlignment: VerticalAlignment.Bottom
+                    leftPadding: 20
+                    bottomPadding: 15
+                    Label {
+                        text: qsTr("Average Speed: %1 km/h.  Distance: %2 m").arg(GpsLocation.avgSpeed).arg(GpsLocation.distance)
+                    }
                 }
             }
 
-            MapView {
-                id: mapview
-
-                horizontalAlignment: HorizontalAlignment.Fill
-                verticalAlignment: VerticalAlignment.Center
-                preferredHeight: 720;
-                latitude: GpsLocation.latitude
-                longitude: GpsLocation.longitude
-                altitude: 1000
-
-                onCreationCompleted: {
-                    GpsLocation.mapviewCreated(mapview);
-                }
-            }
-            //            Button {
-//                id: startButton
-//                horizontalAlignment: HorizontalAlignment.Center
-//                verticalAlignment: VerticalAlignment.Bottom
-//                text: qsTr("Start")
-//                onClicked: {
-//                    startButton.visible = false;
-//                    Trail.startWorkout();
-//                }
-//            }
-//            Button {
-//                visible: !startButton.visible
-//                horizontalAlignment: HorizontalAlignment.Center
-//                verticalAlignment: VerticalAlignment.Bottom
-//                text: Trail.started ? qsTr("Pause") : qsTr("Resume")
-////                imageSource: "asset:///images/picture1thumb.png"
-//                onClicked: {
-//                    if (!Trail.started) {
-//                        Trail.startWorkout();
-//                    } else {
-//                        Trail.stopWorkout();
-//                        // show detail page when the button is clicked
-//                        var page = getSecondPage();
-//                        console.debug("pushing detail " + page)
-//                        navigationPane.push(page);
-//                    }
-//                }
-//                property Page secondPage
-//                function getSecondPage() {
-//                    if (! secondPage) {
-//                        secondPage = secondPageDefinition.createObject();
-//                    }
-//                    return secondPage;
-//                }
-//                attachedObjects: [
-//                    ComponentDefinition {
-//                        id: secondPageDefinition
-//                        source: "DetailsPage.qml"
-//                    }
-//                ]
-//            }
         }
     }
     onCreationCompleted: {
