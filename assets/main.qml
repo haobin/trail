@@ -29,7 +29,10 @@ NavigationPane {
                 horizontalAlignment: HorizontalAlignment.Fill
                 verticalAlignment: VerticalAlignment.Bottom
                 Label {
-                    text: "Current Speed: " + GpsLocation.groundSpeed
+                    text: qsTr("Average Speed: %1 km/h").arg(GpsLocation.avgSpeed)
+                }
+                Label {
+                    text: qsTr("Distance: %1 meters").arg(GpsLocation.distance)
                 }
             }
 

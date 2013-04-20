@@ -21,7 +21,12 @@ GpsLocation::GpsLocation(QObject *parent) :
     mGroundSpeed(0.0),
     mLatitude(43.468245),
     mLongitude(-80.519603),
-    mMapData(NULL)
+    mDistance(0.0),
+    mAvgSpeed(0.0),
+    mPrevCoor(),
+    mPrevPin(),
+    mMapData(NULL),
+    mStarttime(QDateTime::currentDateTime())
 {
     // TODO Auto-generated constructor stub
     QGeoPositionInfoSource *src = QGeoPositionInfoSource::createDefaultSource(this);
@@ -72,12 +77,32 @@ void GpsLocation::positionUpdated(const QGeoPositionInfo &pos)
     setGroundSpeed(groundSpeed);
     setLatitude(latitude);
     setLongitude(longitude);
+    updateDistance(pos.coordinate());
     qDebug("haobin latitude=%f, longitude=%f, groundSpeed=%f", latitude, longitude, groundSpeed);
 
     if (mMapData != NULL) {
-        GeoLocation *loc = new GeoLocation(latitude, longitude);
-        mMapData->add(loc);
+        if ( (!mPrevPin.isValid()) || mPrevPin.distanceTo(pos.coordinate()) >= 20 ) {
+            mPrevPin = pos.coordinate();
+            GeoLocation *loc = new GeoLocation(latitude, longitude);
+            mMapData->add(loc);
+        }
     }
+}
+
+void GpsLocation::updateDistance(QtMobilitySubset::QGeoCoordinate coor)
+{
+    if (mPrevCoor.isValid()) {
+        mDistance += coor.distanceTo(mPrevCoor);
+        Q_EMIT distanceChanged();
+
+        // update avg speed
+        if (mDistance > 0.01) {
+            double elapsedHours = mStarttime.secsTo(QDateTime::currentDateTime()) / 3600.0;
+            mAvgSpeed = (mDistance / elapsedHours) / 1000;
+            Q_EMIT avgSpeedChanged();
+        }
+    }
+    mPrevCoor = coor;
 }
 
 void GpsLocation::setLocationPending(bool pending)
@@ -86,6 +111,7 @@ void GpsLocation::setLocationPending(bool pending)
         mLocationPending = pending;
         Q_EMIT locationPendingChanged();
     }
+
 }
 
 bool GpsLocation::isLocationPending() const
@@ -142,4 +168,14 @@ Q_INVOKABLE void GpsLocation::mapviewCreated(QObject *mapobj)
     } else {
         qWarning("haobin mapview is null.");
     }
+}
+
+int GpsLocation::getDistance() const
+{
+    return static_cast<int>(mDistance);
+}
+
+QString GpsLocation::getAvgSpeed() const
+{
+    return QString::number(mAvgSpeed, 'f', 2);
 }
